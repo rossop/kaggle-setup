@@ -236,15 +236,75 @@ pip install -r $project_root/requirements.txt
 
 echo "Python dependencies installed."
 
-# Instructions for Kaggle API setup and data download
-echo "Please ensure your Kaggle API key is set up in ~/.kaggle/kaggle.json."
-echo "To download competition data, use: kaggle competitions download -c [competition-name] -p $project_root/data/raw"
+# Content of CONTRIBUTING.md
+read -r -d '' content << 'EOF'
+# Branching Strategy for Kaggle Competition Project
+
+This document outlines our project's branching strategy, designed to streamline development, feature integration, and hotfix application. Our strategy is built on three main types of branches: `feature`, `hotfix`, and `develop`.
+
+## Branch Types
+
+### `develop` Branch
+
+- **Purpose**: Serves as the main development branch, containing the latest code that is in development.
+- **Usage**: All feature and hotfix branches branch off from `develop` and are merged back into it once they are ready.
+
+### `feature` Branches
+
+- **Naming Convention**: `feature-<feature-name>`
+- **Purpose**: Used for developing new features or enhancements.
+- **Usage**:
+  - Branch off from: `develop`
+  - Merge back into: `develop`
+  - Each new feature should have its own branch.
+  - Merge requests (MRs) or pull requests (PRs) are used to merge feature branches back into `develop` after code review.
+
+### `hotfix` Branches
+
+- **Naming Convention**: `hotfix-<issue>`
+- **Purpose**: Used to quickly fix issues in the live environment.
+- **Usage**:
+  - Branch off from: `develop`
+  - Merge back into: `develop` and then into `main` or `master` if the fix needs to go live immediately.
+  - Hotfix branches allow for quick fixes without disrupting the main development workflow.
+
+## Workflow Summary
+
+1. **Development**: Starts from the `develop` branch.
+2. **Features**: Work on new features in `feature` branches, then merge back into `develop`.
+3. **Hotfixes**: Address immediate issues in `hotfix` branches, then merge into both `develop` and `main`/`master`.
+4. **Stable Releases**: Periodically, `develop` can be merged into `main`/`master` for stable release versions.
+
+## Dos and Don'ts
+
+### Dos
+
+- **Do** keep your branch up to date with the base branch (usually `develop`).
+- **Do** ensure your feature or hotfix is fully tested before creating a pull request.
+- **Do** follow naming conventions for branches to maintain consistency and readability.
+- **Do** use descriptive commit messages that explain the "why" behind changes.
+- **Do** review pull requests thoroughly before merging.
+
+### Don'ts
+
+- **Don't** merge your own pull requests without at least one peer review.
+- **Don't** commit directly to the `develop` or `main`/`master` branches. Always use feature or hotfix branches.
+- **Don't** let your branches get too far ahead of `develop`—regularly merge changes from `develop` into your feature/hotfix branch.
+- **Don't** leave branches open after they’ve been merged. Close them to keep the repository clean.
+
+## Conclusion
+
+Following this branching strategy will help keep our project organised, facilitate efficient collaboration among team members, and ensure that our codebase remains stable and easy to manage.
+EOF
+
+# Create CONTRIBUTING.md in the project root
+echo "$content" > "$project_root/CONTRIBUTING.md"
+echo "CONTRIBUTING.md has been created in $project_root."
+
 
 
 # Navigate to the project root directory
 cd $project_root
-
-
 
 
 # Create a Dockerfile in the project root
@@ -312,3 +372,6 @@ else
 fi
 
 
+# Instructions for Kaggle API setup and data download
+echo "Please ensure your Kaggle API key is set up in ~/.kaggle/kaggle.json."
+echo "To download competition data, use: kaggle competitions download -c [competition-name] -p $project_root/data/raw"
